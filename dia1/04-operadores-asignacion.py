@@ -1,9 +1,19 @@
-#Operadores de asignacion
-# =
+#operadores de asignacion
+# = igual
 x=10
-# +=
-x += 1
-# -=
-x-= 1
-# *=
-x *= 2
+print (x)
+# += incremento
+x +=1
+print (x)
+# -=decremento
+x -=1
+print (x)
+# *=multiplicador
+x *=2
+print (x)
+# /=dividiendo
+x /=2
+print (x)
+#potencia
+x **=2
+print (x)
