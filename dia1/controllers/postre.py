@@ -2,7 +2,6 @@
 #/postres GET = muestra los postres
 
 # from typing_extensions import Required
-from typing_extensions import Required
 from flask_restful import Resource, reqparse
 from models.postre import PostreModel
 from config.conexion_bd import base_de_datos
@@ -108,23 +107,42 @@ class BusquedaPostre(Resource):
 
     serializerBusqueda.add_argument(
         'nombre',
-        type = str, 
-        location = 'args',
-        Required = False
+        type=str,
+        location='args',
+        required=False,
     )
+
     serializerBusqueda.add_argument(
         'porcion',
         type = str, 
         location = 'args',
-        Required = False
+        required = False,
+        choices= ('Familiar','Personal'),
+
     )
     
-    def get(self):
-        filtros = self.serializerBusqueda.parse_args()
-        print(filtros)
-        return 'ok'
-
 
     def get(self):
-        print()
-        return'ok'
+        filtros =self.serializerBusqueda.parse_args()
+        if filtros.get('nombre') and filtros.get('porcion'):
+            resultado = base_de_datos.session.query(PostreModel).filter_by(
+            postreNombre = filtros.get('nombre'),postrePorcion = filtros.get ('porcion')).all()
+            print(resultado)
+            return 'ok'
+
+        elif filtros.get ('nombre'):
+            resultado = base_de_datos.session.query(PostreModel).filter_by(
+            postreNombre = filtros.get('nombre')).all()
+            print(resultado)
+            return 'ok'
+
+        elif filtros.get ('porcion'):
+            resultado = base_de_datos.session.query(PostreModel).filter_by(
+            postreNombre = filtros.get('porcion')).all()
+            print(resultado)
+            return 'ok'
+
+        else:
+            return {
+                'message' : 'Necesitas dar almenos u parametro'
+            }
