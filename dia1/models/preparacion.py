@@ -1,6 +1,7 @@
 from sqlalchemy.sql.schema import ForeignKey
 from config.conexion_bd import base_de_datos
 from sqlalchemy import Column, types
+from config.conexion_bd import base_de_datos
 
 
 class PreparacionModel(base_de_datos.Model):
@@ -24,7 +25,7 @@ class PreparacionModel(base_de_datos.Model):
     postre = Column(ForeignKey(column='postres.id', ondelete="CASCADE"),
                     name='postre_id', type_=types.Integer, nullable=False)
 
-    def __init__(self, orden, descripcion,postre_id):
+    def __init__(self, orden, descripcion, postre_id):
         self.preparacionOrden = orden
         self.preparacionDescripcion = descripcion
         self.postre = postre_id
@@ -33,7 +34,7 @@ class PreparacionModel(base_de_datos.Model):
         base_de_datos.session.add(self)
         base_de_datos.session.commit()
 
-def json(self):
+    def json(self):
         return {
             "id": self.preparacionId,
             "orden": self.preparacionOrden,
